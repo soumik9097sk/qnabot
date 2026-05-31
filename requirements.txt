@@ -1,0 +1,35 @@
+# Core AI/ML libraries
+openai>=1.0.0
+langchain>=0.1.0
+langchain-openai>=0.1.0
+langchain-community>=0.1.0
+langchain-google-vertexai>=1.0.0
+
+# Google Cloud Platform
+google-cloud-aiplatform>=1.35.0
+google-auth>=2.0.0
+google-auth-oauthlib>=1.0.0
+google-auth-httplib2>=0.1.0
+
+# Agent frameworks
+autogen>=0.2.0
+crewai>=0.1.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Web framework for API
+fastapi>=0.100.0
+uvicorn>=0.20.0
+
+# Environment management
+python-dotenv>=1.0.0
+
+# Logging and monitoring
+loguru>=0.7.0
+
+# Development tools
+pytest>=7.0.0
+black>=23.0.0
+flake8>=6.0.0

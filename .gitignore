@@ -1,0 +1,25 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+.chroma/
+chroma_db/
+*.sqlite3
+.env.*
+
+# VSCode
+.vscode/
+
+# macOS
+*.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Python build
+build/
+dist/
+.eggs/
+*.egg-info/
