@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF QA</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+input[type="file"] {
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#answer {
+    white-space: pre-wrap;
+    margin-top: 15px;
+}
+</style>
+</head>
+<body>
+
+<h1>PDF Question Answering</h1>
+
+<div class="card">
+    <h2>Upload PDF</h2>
+
+    <input type="file" id="pdfFile" accept=".pdf">
+
+    <br>
+
+    <button onclick="uploadPDF()">
+        Upload
+    </button>
+
+    <p id="uploadStatus"></p>
+</div>
+
+<div class="card">
+    <h2>Ask Question</h2>
+
+    <textarea
+        id="question"
+        placeholder="Ask something about the uploaded PDF..."
+    ></textarea>
+
+    <br><br>
+
+    <button onclick="askQuestion()">
+        Ask
+    </button>
+
+    <div id="answer"></div>
+</div>
+
+<script>
+async function uploadPDF() {
+    const fileInput = document.getElementById("pdfFile");
+    const status = document.getElementById("uploadStatus");
+
+    if (!fileInput.files.length) {
+        status.innerText = "Select a PDF first";
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+
+    try {
+        const response = await fetch("/upload-pdf", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        status.innerText =
+            data.message || "Upload successful";
+    }
+    catch (err) {
+        status.innerText =
+            "Upload failed: " + err.message;
+    }
+}
+
+async function askQuestion() {
+    const question =
+        document.getElementById("question").value;
+
+    const answerDiv =
+        document.getElementById("answer");
+
+    answerDiv.innerHTML = "Thinking...";
+
+    try {
+        const response = await fetch("/qa", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                question: question
+            })
+        });
+
+        const data = await response.json();
+
+        answerDiv.innerHTML =
+            "<b>Answer:</b><br><br>" +
+            data.answer;
+    }
+    catch (err) {
+        answerDiv.innerHTML =
+            "Error: " + err.message;
+    }
+}
+</script>
+
+</body>
+</html>
